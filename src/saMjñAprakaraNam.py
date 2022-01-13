@@ -120,7 +120,7 @@ vyañjana_varga_varNa = pañchama_varga_varNa + chaturtha_varga_varNa + tRRitIya
 hrasva_svara_varNa = ['अ', 'इ', 'उ', 'ऋ', 'ऌ', None, None, None, None]
 dIrgha_svara_varNa = ['आ', 'ई', 'ऊ', 'ॠ', None, 'ए', 'ऐ', 'ओ', 'औ']
 # Letter ३ is appended to each pluta svara
-pluta_svara_varNa = ['अ', 'इ', 'उ', 'ऋ', 'ऌ', 'ए', 'ऐ', 'ओ', 'औ']
+pluta_svara_varNa = list(hrasva_svara_varNa[:5]) + list(dIrgha_svara_varNa[5:])
 
 def get_hrasvadIrghapluta_bheda(varNa):
     bheda = []
@@ -192,7 +192,7 @@ def get_hrasvadIrghapluta_svara(varNa):
             svara.append(v + '३')
     return svara
 
-def get_sarva_svara(varNa):
+def get_all_svara(varNa):
     svara = []
     varNa_index = -1
 
@@ -201,8 +201,6 @@ def get_sarva_svara(varNa):
         varNa_index = hrasva_svara_varNa.index(varNa[0])
     elif (varNa[0] in dIrgha_svara_varNa):
         varNa_index = dIrgha_svara_varNa.index(varNa[0])
-    elif (varNa[0] in pluta_svara_varNa):
-        varNa_index = pluta_svara_varNa.index(varNa[0])
     
     if (varNa_index != -1):
         if (hrasva_svara_varNa[varNa_index]):
@@ -234,22 +232,37 @@ def get_sarva_svara(varNa):
 # test_svara_varNa = ['इ', 'आ॒', 'एँ३', 'ऊ॑', 'ऋँ॒', 'अँ३', 'ॠ॑', 'ओँ॒', 'ऌ॑३', 'ऐ']
 # for varNa in test_svara_varNa:
 #     print(varNa, end=' ')
-#     print(get_hrasvadIrghapluta_svara(varNa), end=' ')
-#     # print(get_sarva_svara(varNa), end=' ')
+#     # print(get_hrasvadIrghapluta_svara(varNa), end=' ')
+#     print(get_all_svara(varNa), end=' ')
+#     print()
+
+def get_distinct_svara(varNa):
+    svara = []
+    varNa_index = -1
+
+    # Get index of svara 
+    if (varNa[0] in hrasva_svara_varNa):
+        varNa_index = hrasva_svara_varNa.index(varNa[0])
+    elif (varNa[0] in dIrgha_svara_varNa):
+        varNa_index = dIrgha_svara_varNa.index(varNa[0])
+    
+    if (varNa_index != -1):
+        if (hrasva_svara_varNa[varNa_index]):
+            v = hrasva_svara_varNa[varNa_index]
+            svara.append(v)
+        if (dIrgha_svara_varNa[varNa_index]):
+            v = dIrgha_svara_varNa[varNa_index]
+            svara.append(v)
+    return svara
+
+# test_svara_varNa = ['इ', 'आ॒', 'एँ३', 'ऊ॑', 'ऋँ॒', 'अँ३', 'ॠ॑', 'ओँ॒', 'ऌ॑३', 'ऐ']
+# for varNa in test_svara_varNa:
+#     print(varNa, end=' ')
+#     print(get_distinct_svara(varNa), end=' ')
 #     print()
 
 ################################################################################
 # १० तुल्यास्यप्रयत्नं सवर्णम् [ १.१.९ ]
-
-a_svara_varNa = ['अ', 'आ'] # अकारस्य अष्टादश भेदाः
-i_svara_varNa = ['इ', 'ई'] # इकारस्य अष्टादश भेदाः
-u_svara_varNa = ['उ', 'ऊ'] # उकारस्य अष्टादश भेदाः
-RRi_svara_varNa = ['ऋ', 'ॠ'] # ऋकारस्य अष्टादश भेदाः
-LLi_svara_varNa = ['ऌ', 'ॡ'] # ऌकारस्य द्वादश भेदाः
-e_svara_varNa = ['ए'] # एकारस्य द्वादशभेदाः
-ai_svara_varNa = ['ऐ'] # ऐकारस्य द्वादशभेदाः
-o_svara_varNa = ['ओ'] # ओकारस्य द्वादशभेदाः
-au_svara_varNa = ['औ'] # औकारस्य द्वादशभेदाः
 
 ku_varga_varNa = ['क', 'ख', 'ग', 'घ', 'ङ']
 chu_varga_varNa = ['च', 'छ', 'ज', 'झ', 'ञ']
@@ -258,21 +271,21 @@ tu_varga_varNa = ['त', 'थ', 'द', 'ध', 'न']
 pu_varga_varNa = ['प', 'फ', 'ब', 'भ', 'म']
 
 # कण्ठ्याः - अ (स्वराः - अकारस्य अष्टादश भेदाः) + कु (वर्गीयाः) + ह (उष्माणः) + विसर्गः (अयोगवाहाः)
-kaNTha_varNa = a_svara_varNa + ku_varga_varNa + ['ह']
+kaNTha_varNa = get_distinct_svara('अ') + ku_varga_varNa + ['ह']
 # तालव्याः - इ (स्वराः - इकारस्य अष्टादश भेदाः) + चु (वर्गीयाः) + य (अन्तःस्थाः) + श (उष्माणः)
-tAlu_varNa = i_svara_varNa + chu_varga_varNa + ['य', 'श']
+tAlu_varNa = get_distinct_svara('इ') + chu_varga_varNa + ['य', 'श']
 # मूर्धन्याः - ऋ (स्वराः - ऋकारस्य अष्टादश भेदाः) + टु (वर्गीयाः) + र (अन्तःस्थाः) + ष (उष्माणः)
-mUrdhA_varNa = RRi_svara_varNa + Tu_varga_varNa + ['र', 'ष']
+mUrdhA_varNa = get_distinct_svara('ऋ') + Tu_varga_varNa + ['र', 'ष']
 # दन्त्याः - ऌ (स्वराः - ऌकारस्य द्वादश भेदाः) + तु (वर्गीयाः) + ल (अन्तःस्थाः) + स (उष्माणः)
-danta_varNa = LLi_svara_varNa + tu_varga_varNa + ['ल', 'स']
+danta_varNa = get_distinct_svara('ऌ') + tu_varga_varNa + ['ल', 'स']
 # ओष्ठ्याः - उ (स्वराः - उकारस्य अष्टादश भेदाः) + पु (वर्गीयाः) + उपध्मानीयः (≍प≍फ - अयोगवाहाः)
-oShTha_varNa = u_svara_varNa + pu_varga_varNa
+oShTha_varNa = get_distinct_svara('उ') + pu_varga_varNa
 # अनुनासिकाः - ञ म ङ ण न (वर्गीयाः)
 anunAsika_varNa = pañchama_varga_varNa
 # कण्ठ-तालव्यौ - ए (स्वराः - एकारस्य द्वादशभेदाः), ऐ (स्वराः - ऐकारस्य द्वादशभेदाः)
-kaNThatAlu_varNa = e_svara_varNa + ai_svara_varNa
+kaNThatAlu_varNa = get_distinct_svara('ए') + get_distinct_svara('ऐ')
 # कण्ठ-ओष्ठ्यौ - ओ (स्वराः - ओकारस्य द्वादशभेदाः), औ (स्वराः - औकारस्य द्वादशभेदाः)
-kaNThoShTha_varNa = o_svara_varNa + au_svara_varNa
+kaNThoShTha_varNa = get_distinct_svara('ओ') + get_distinct_svara('औ')
 # दन्त-ओष्ठ्यः व् (अन्तःस्थाः)
 dantoShTha_varNa = ['व']
 
