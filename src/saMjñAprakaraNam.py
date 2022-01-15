@@ -368,3 +368,86 @@ def get_bAhyaprayatna(varNa):
 #     print(get_bAhyaprayatna(varNa))
 
 ################################################################################
+# ११ अणुदित् सवर्णस्य चाप्रत्ययः [१.१.६९ ]
+
+def get_savarNa_bheda(varNa):
+    bheda = []
+
+    # Check for udit varNa - 'कुँ', 'चुँ', 'टुँ', 'तुँ', 'पुँ'
+    if (varNa[0] in ku_varga_varNa):
+        bheda.append("कुँ")
+    elif (varNa[0] in chu_varga_varNa):
+        bheda.append("चुँ")
+    elif (varNa[0] in Tu_varga_varNa):
+        bheda.append("टुँ")
+    elif (varNa[0] in tu_varga_varNa):
+        bheda.append("तुँ")
+    elif (varNa[0] in pu_varga_varNa):
+        bheda.append("पुँ")
+    else:
+        # Check for aN varNa - अ, इ, उ, ऋ, ऌ, ए, ओ, ऐ, औ, ह, य, व, र, ल 
+        aN_varNa = get_pratyAhAra_varNa('अण्', 1)
+        # if it is in अ, इ, उ types
+        if (av_list := [av for av in aN_varNa[:3] if varNa[0] in get_distinct_svara(av)]):
+            bheda.extend(av_list)
+        # if it is in ऋ, ऌ types
+        elif (av_list := [av for av in aN_varNa[3:5] if varNa[0] in get_distinct_svara(av)]):
+            bheda.extend(aN_varNa[3:5])
+        # if it is in remaining अण् types
+        elif (varNa[0] in aN_varNa[5:]):
+            bheda.append(varNa[0])
+        # Return same as input    
+        else:
+            bheda.append(varNa)
+    return bheda
+
+# Identify whether letters in following pairs are savarṇas of each other:
+# test_varNa = [
+#     ['उ', 'ऊँ'], ['ऋ', 'श्'], ['म्', 'प्'], ['ओ', 'औ'], ['अ', 'इ'], 
+#     ['ट्', 'ष्'], ['ङ्', 'ञ्'], ['ज्', 'छ्'], ['ॠ', 'ऌ'], ['भ्', 'उ'], 
+#     ['ष', 'षँ'], ['य', 'यँ']]
+# for varNa in test_varNa:
+#     print(varNa, end=' ')
+#     if (get_savarNa_bheda(varNa[0]) == get_savarNa_bheda(varNa[1])):
+#         print('आम्')
+#     else:
+#         print('न')
+
+def get_savarNa_varNa(varNa):
+    savarNa_varNa = []
+    # Check for udit varNa - 'कुँ', 'चुँ', 'टुँ', 'तुँ', 'पुँ'
+    if (varNa == 'कुँ'):
+        savarNa_varNa.extend(ku_varga_varNa)
+    elif (varNa == 'चुँ'):
+        savarNa_varNa.extend(chu_varga_varNa)
+    elif (varNa == 'टुँ'):
+        savarNa_varNa.extend(Tu_varga_varNa)
+    elif (varNa == 'तुँ'):
+        savarNa_varNa.extend(tu_varga_varNa)
+    elif (varNa == 'पुँ'):
+        savarNa_varNa.extend(pu_varga_varNa)
+    else:
+        aN_varNa = get_pratyAhAra_varNa('अण्', 1)
+        # Check for aN varNa - अ, इ, उ, ऋ, ऌ, ए, ओ, ऐ, औ, ह, य, व, र, ल 
+        if (varNa in aN_varNa[:3]): # if it is in अ, इ, उ
+            savarNa_varNa.extend(get_distinct_svara(varNa))
+        elif (varNa in aN_varNa[3:5]): # if it is in ऋ, ऌ
+            savarNa_varNa.extend(get_distinct_svara(aN_varNa[3]))
+            savarNa_varNa.extend(get_distinct_svara(aN_varNa[4]))
+        elif (varNa in aN_varNa[5:]): # if it is in remaining अण्
+            if (varNa == 'य') or (varNa == 'व') or (varNa == 'ल'):
+                savarNa_varNa.extend([varNa, varNa + anunAsika_chandrabindu])
+            else:
+                savarNa_varNa.extend([varNa])
+        else:
+            # Return same as input    
+            savarNa_varNa.append(varNa)
+    return savarNa_varNa
+
+# Identify which letters are represented by following
+# test_varNa = ['चुँ', 'औ', 'य', 'क', 'ऌ', 'उ', 'तुँ', 'ठ', 'अ', 'फ', 'आ']
+# for varNa in test_varNa:
+#     print(varNa, end=' ')
+#     print(get_savarNa_varNa(varNa))
+
+################################################################################
