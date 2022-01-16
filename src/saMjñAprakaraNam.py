@@ -169,30 +169,11 @@ def get_anunAsikaniranunAsika_bheda(varNa):
 #     print(get_anunAsikaniranunAsika_bheda(varNa), end=' ')
 #     print()
 
-def get_hrasvadIrghapluta_svara(varNa):
-    svara = []
-    varNa_index = -1
-
-    if (varNa[0] in hrasva_svara_varNa):
-        varNa_index = hrasva_svara_varNa.index(varNa[0])
-    elif (varNa[0] in dIrgha_svara_varNa):
-        varNa_index = dIrgha_svara_varNa.index(varNa[0])
-    elif (varNa[0] in pluta_svara_varNa):
-        varNa_index = pluta_svara_varNa.index(varNa[0])
-    
-    if (varNa_index != -1):
-        if (hrasva_svara_varNa[varNa_index]):
-            v = hrasva_svara_varNa[varNa_index]
-            svara.append(v)
-        if (dIrgha_svara_varNa[varNa_index]):
-            v = dIrgha_svara_varNa[varNa_index]
-            svara.append(v)
-        if (pluta_svara_varNa[varNa_index]):
-            v = pluta_svara_varNa[varNa_index]
-            svara.append(v + '३')
-    return svara
-
-def get_all_svara(varNa):
+# svara_type 0 = Only distinct svara
+# svara_type 1 = hrasva, dIrgha, pluta
+# svara_type 2 = type 1 with udAtta, anudAtta, svarita
+# svara_type 3 = type 2 with anunAsika, niranunAsika
+def get_all_svara(varNa, svara_type = 0):
     svara = []
     varNa_index = -1
 
@@ -206,59 +187,42 @@ def get_all_svara(varNa):
         if (hrasva_svara_varNa[varNa_index]):
             v = hrasva_svara_varNa[varNa_index]
             svara.append(v)
-            svara.append(v + anunAsika_chandrabindu)
-            svara.append(v + anudAtta_rekhA)
-            svara.append(v + anunAsika_chandrabindu + anudAtta_rekhA)
-            svara.append(v + svarita_rekhA)
-            svara.append(v + anunAsika_chandrabindu + svarita_rekhA)
+            if (svara_type > 1):
+                svara.append(v + anudAtta_rekhA)
+                svara.append(v + svarita_rekhA)
+                if (svara_type > 2):
+                    svara.append(v + anunAsika_chandrabindu)
+                    svara.append(v + anunAsika_chandrabindu + anudAtta_rekhA)
+                    svara.append(v + anunAsika_chandrabindu + svarita_rekhA)
         if (dIrgha_svara_varNa[varNa_index]):
             v = dIrgha_svara_varNa[varNa_index]
             svara.append(v)
-            svara.append(v + anunAsika_chandrabindu)
-            svara.append(v + anudAtta_rekhA)
-            svara.append(v + anunAsika_chandrabindu + anudAtta_rekhA)
-            svara.append(v + svarita_rekhA)
-            svara.append(v + anunAsika_chandrabindu + svarita_rekhA)
-        if (pluta_svara_varNa[varNa_index]):
+            if (svara_type > 1):
+                svara.append(v + anudAtta_rekhA)
+                svara.append(v + svarita_rekhA)
+                if (svara_type > 2):
+                    svara.append(v + anunAsika_chandrabindu)
+                    svara.append(v + anunAsika_chandrabindu + anudAtta_rekhA)
+                    svara.append(v + anunAsika_chandrabindu + svarita_rekhA)
+        if (pluta_svara_varNa[varNa_index] and (svara_type > 0)):
             v = pluta_svara_varNa[varNa_index]
             svara.append(v + '३')
-            svara.append(v + anunAsika_chandrabindu + '३')
-            svara.append(v + anudAtta_rekhA + '३')
-            svara.append(v + anunAsika_chandrabindu + anudAtta_rekhA + '३')
-            svara.append(v + svarita_rekhA + '३')
-            svara.append(v + anunAsika_chandrabindu + svarita_rekhA + '३')
+            if (svara_type > 1):
+                svara.append(v + anudAtta_rekhA + '३')
+                svara.append(v + svarita_rekhA + '३')
+                if (svara_type > 2):
+                    svara.append(v + anunAsika_chandrabindu + '३')
+                    svara.append(v + anunAsika_chandrabindu + anudAtta_rekhA + '३')
+                    svara.append(v + anunAsika_chandrabindu + svarita_rekhA + '३')
     return svara
 
 # test_svara_varNa = ['इ', 'आ॒', 'एँ३', 'ऊ॑', 'ऋँ॒', 'अँ३', 'ॠ॑', 'ओँ॒', 'ऌ॑३', 'ऐ']
 # for varNa in test_svara_varNa:
 #     print(varNa, end=' ')
-#     # print(get_hrasvadIrghapluta_svara(varNa), end=' ')
-#     print(get_all_svara(varNa), end=' ')
-#     print()
-
-def get_distinct_svara(varNa):
-    svara = []
-    varNa_index = -1
-
-    # Get index of svara 
-    if (varNa[0] in hrasva_svara_varNa):
-        varNa_index = hrasva_svara_varNa.index(varNa[0])
-    elif (varNa[0] in dIrgha_svara_varNa):
-        varNa_index = dIrgha_svara_varNa.index(varNa[0])
-    
-    if (varNa_index != -1):
-        if (hrasva_svara_varNa[varNa_index]):
-            v = hrasva_svara_varNa[varNa_index]
-            svara.append(v)
-        if (dIrgha_svara_varNa[varNa_index]):
-            v = dIrgha_svara_varNa[varNa_index]
-            svara.append(v)
-    return svara
-
-# test_svara_varNa = ['इ', 'आ॒', 'एँ३', 'ऊ॑', 'ऋँ॒', 'अँ३', 'ॠ॑', 'ओँ॒', 'ऌ॑३', 'ऐ']
-# for varNa in test_svara_varNa:
-#     print(varNa, end=' ')
-#     print(get_distinct_svara(varNa), end=' ')
+#     # print(get_all_svara(varNa), end=' ')
+#     # print(get_all_svara(varNa, 1), end=' ')
+#     # print(get_all_svara(varNa, 2), end=' ')
+#     print(get_all_svara(varNa, 3), end=' ')
 #     print()
 
 ################################################################################
@@ -271,21 +235,21 @@ tu_varga_varNa = ['त', 'थ', 'द', 'ध', 'न']
 pu_varga_varNa = ['प', 'फ', 'ब', 'भ', 'म']
 
 # कण्ठ्याः - अ (स्वराः - अकारस्य अष्टादश भेदाः) + कु (वर्गीयाः) + ह (उष्माणः) + विसर्गः (अयोगवाहाः)
-kaNTha_varNa = get_distinct_svara('अ') + ku_varga_varNa + ['ह']
+kaNTha_varNa = get_all_svara('अ') + ku_varga_varNa + ['ह']
 # तालव्याः - इ (स्वराः - इकारस्य अष्टादश भेदाः) + चु (वर्गीयाः) + य (अन्तःस्थाः) + श (उष्माणः)
-tAlu_varNa = get_distinct_svara('इ') + chu_varga_varNa + ['य', 'श']
+tAlu_varNa = get_all_svara('इ') + chu_varga_varNa + ['य', 'श']
 # मूर्धन्याः - ऋ (स्वराः - ऋकारस्य अष्टादश भेदाः) + टु (वर्गीयाः) + र (अन्तःस्थाः) + ष (उष्माणः)
-mUrdhA_varNa = get_distinct_svara('ऋ') + Tu_varga_varNa + ['र', 'ष']
+mUrdhA_varNa = get_all_svara('ऋ') + Tu_varga_varNa + ['र', 'ष']
 # दन्त्याः - ऌ (स्वराः - ऌकारस्य द्वादश भेदाः) + तु (वर्गीयाः) + ल (अन्तःस्थाः) + स (उष्माणः)
-danta_varNa = get_distinct_svara('ऌ') + tu_varga_varNa + ['ल', 'स']
+danta_varNa = get_all_svara('ऌ') + tu_varga_varNa + ['ल', 'स']
 # ओष्ठ्याः - उ (स्वराः - उकारस्य अष्टादश भेदाः) + पु (वर्गीयाः) + उपध्मानीयः (≍प≍फ - अयोगवाहाः)
-oShTha_varNa = get_distinct_svara('उ') + pu_varga_varNa
+oShTha_varNa = get_all_svara('उ') + pu_varga_varNa
 # अनुनासिकाः - ञ म ङ ण न (वर्गीयाः)
 anunAsika_varNa = pañchama_varga_varNa
 # कण्ठ-तालव्यौ - ए (स्वराः - एकारस्य द्वादशभेदाः), ऐ (स्वराः - ऐकारस्य द्वादशभेदाः)
-kaNThatAlu_varNa = get_distinct_svara('ए') + get_distinct_svara('ऐ')
+kaNThatAlu_varNa = get_all_svara('ए') + get_all_svara('ऐ')
 # कण्ठ-ओष्ठ्यौ - ओ (स्वराः - ओकारस्य द्वादशभेदाः), औ (स्वराः - औकारस्य द्वादशभेदाः)
-kaNThoShTha_varNa = get_distinct_svara('ओ') + get_distinct_svara('औ')
+kaNThoShTha_varNa = get_all_svara('ओ') + get_all_svara('औ')
 # दन्त-ओष्ठ्यः व् (अन्तःस्थाः)
 dantoShTha_varNa = ['व']
 
@@ -368,6 +332,7 @@ def get_bAhyaprayatna(varNa):
 #     print(get_bAhyaprayatna(varNa))
 
 ################################################################################
+# १० तुल्यास्यप्रयत्नं सवर्णम् [ १.१.९ ]
 # ११ अणुदित् सवर्णस्य चाप्रत्ययः [१.१.६९ ]
 
 def get_savarNa_bheda(varNa):
@@ -388,10 +353,10 @@ def get_savarNa_bheda(varNa):
         # Check for aN varNa - अ, इ, उ, ऋ, ऌ, ए, ओ, ऐ, औ, ह, य, व, र, ल 
         aN_varNa = get_pratyAhAra_varNa('अण्', 1)
         # if it is in अ, इ, उ types
-        if (av_list := [av for av in aN_varNa[:3] if varNa[0] in get_distinct_svara(av)]):
+        if (av_list := [av for av in aN_varNa[:3] if varNa[0] in get_all_svara(av)]):
             bheda.extend(av_list)
         # if it is in ऋ, ऌ types
-        elif (av_list := [av for av in aN_varNa[3:5] if varNa[0] in get_distinct_svara(av)]):
+        elif (av_list := [av for av in aN_varNa[3:5] if varNa[0] in get_all_svara(av)]):
             bheda.extend(aN_varNa[3:5])
         # if it is in remaining अण् types
         elif (varNa[0] in aN_varNa[5:]):
@@ -429,12 +394,15 @@ def get_savarNa_varNa(varNa):
     else:
         aN_varNa = get_pratyAhAra_varNa('अण्', 1)
         # Check for aN varNa - अ, इ, उ, ऋ, ऌ, ए, ओ, ऐ, औ, ह, य, व, र, ल 
+        svara_type = 0
         if (varNa in aN_varNa[:3]): # if it is in अ, इ, उ
-            savarNa_varNa.extend(get_distinct_svara(varNa))
+            savarNa_varNa.extend(get_all_svara(varNa, svara_type))
         elif (varNa in aN_varNa[3:5]): # if it is in ऋ, ऌ
-            savarNa_varNa.extend(get_distinct_svara(aN_varNa[3]))
-            savarNa_varNa.extend(get_distinct_svara(aN_varNa[4]))
-        elif (varNa in aN_varNa[5:]): # if it is in remaining अण्
+            savarNa_varNa.extend(get_all_svara(aN_varNa[3], svara_type))
+            savarNa_varNa.extend(get_all_svara(aN_varNa[4], svara_type))
+        elif (varNa in aN_varNa[5:9]): # if it is in remaining अण्
+            savarNa_varNa.extend(get_all_svara(varNa, svara_type))
+        elif (varNa in aN_varNa[9:]): # if it is in remaining अण्
             if (varNa == 'य') or (varNa == 'व') or (varNa == 'ल'):
                 savarNa_varNa.extend([varNa, varNa + anunAsika_chandrabindu])
             else:
@@ -448,6 +416,8 @@ def get_savarNa_varNa(varNa):
 # test_varNa = ['चुँ', 'औ', 'य', 'क', 'ऌ', 'उ', 'तुँ', 'ठ', 'अ', 'फ', 'आ']
 # for varNa in test_varNa:
 #     print(varNa, end=' ')
-#     print(get_savarNa_varNa(varNa))
+#     varNa_list = get_savarNa_varNa(varNa)
+#     print(len(varNa_list), end=' ')
+#     print(varNa_list)
 
 ################################################################################
