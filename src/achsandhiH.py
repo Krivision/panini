@@ -267,13 +267,65 @@ def get_jhalAMjashjhashi_joined(inputword):
 #     print(jhalAMjashjhashi_word, end=' ')
 #     print()
 
-# सन्धिं विभजत
+################################################################################
+# २२ एचोऽयवायावः [६.१.७८ ]
+
+def get_echoyavAyAvaH_joined(inputword):
+
+    ech_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('एच्')
+    Adesha_varNa = ["अय्", "अव्", "आय्", "आव्"]
+
+    ach_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('अच्')
+    ach_varNa_all = [x for y in ach_varNa for x in saMjñAprakaraNam.get_all_svara(y)]
+
+    split_varNa = get_split_varNa(inputword)
+    split_varNa_output = []
+
+    for i in range(len(split_varNa)):
+        if split_varNa[i] in ech_varNa and (i+1 < len(split_varNa)) and split_varNa[i+1] in ach_varNa_all:
+            split_varNa_output.extend(get_split_varNa(Adesha_varNa[ech_varNa.index(split_varNa[i])]))
+        else:
+            split_varNa_output.append(split_varNa[i])
+
+    return get_joined_varNa(split_varNa_output)
+
+def get_echoyavAyAvaH_split(inputword):
+
+    ech_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('एच्')
+    Adesha_varNa = ["अय्", "अव्", "आय्", "आव्"]
+
+    ach_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('अच्')
+    ach_varNa_all = [x for y in ach_varNa for x in saMjñAprakaraNam.get_all_svara(y)]
+
+    split_varNa = get_split_varNa(inputword)
+
+    outputwords = []
+
+    for i in range(len(split_varNa)-2):
+        if split_varNa[i]+split_varNa[i+1] in Adesha_varNa and split_varNa[i+2] in ach_varNa_all:
+            split_varNa[i] = ech_varNa[Adesha_varNa.index(split_varNa[i]+split_varNa[i+1])]
+            split_varNa[i+1]=','
+
+    return get_joined_varNa(split_varNa).split(',')
+
+# सन्धिं योजयत
+# test_words = [
+#     ["भो", "अति"], ["रमे", "आ"], ["रै", "औ"], ["आश्रे", "आमः"],
+#     ["पौ", "अकः"], ["सीते", "आगच्छ"], ["तस्मै", "उवाच"], ["तौ", "उभौ"],
+#     ["प्रभो", "उदारः"], ["उड्डे", "इतुम्"]]
+# for word in test_words:
+#     print(word, end=' ')
+#     echoyavAyAvaH_word = get_echoyavAyAvaH_joined(word[0]+word[1])
+#     print(echoyavAyAvaH_word, end=' ')
+#     print(get_echoyavAyAvaH_split(echoyavAyAvaH_word), end=' ')
+#     print()
+
 test_words = [
-    "गुकारस्त्वन्धकारस्तु", "ह्यहं", "कर्मण्यतन्द्रितः", "शास्त्रेष्वकुण्ठिता", "वस्त्वस्ति",
-    "पृथिव्यप्तेजोवाय्वाकाशकालदिगात्ममनांसि", "यू", "स्त्र्याख्यौ"]
+    "नरावुदारौ", "तस्यायिदम्", "श्रवणीयम्", "शयनम्", "भावयामि", 
+    "जयति", "पवनः", "नायकः", "विष्णवे", "नाविकः"]
 for word in test_words:
     print(word, end=' ')
-    print(get_yaNsandhi_split(word), end=' ')
+    print(get_echoyavAyAvaH_split(word), end=' ')
     print()
 
-################################################################################
+
