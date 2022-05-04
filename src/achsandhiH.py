@@ -320,12 +320,50 @@ def get_echoyavAyAvaH_split(inputword):
 #     print(get_echoyavAyAvaH_split(echoyavAyAvaH_word), end=' ')
 #     print()
 
+# test_words = [
+#     "नरावुदारौ", "तस्यायिदम्", "श्रवणीयम्", "शयनम्", "भावयामि", 
+#     "जयति", "पवनः", "नायकः", "विष्णवे", "नाविकः"]
+# for word in test_words:
+#     print(word, end=' ')
+#     print(get_echoyavAyAvaH_split(word), end=' ')
+#     print()
+
+################################################################################
+# ३० लोपः शाकल्यस्य [८.३.१९ ]
+
+def get_lopaHshAkalyasya_joined(inputword):
+
+    ach_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('अच्')
+    ach_varNa_all = [x for y in ach_varNa for x in saMjñAprakaraNam.get_all_svara(y)]
+    hash_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('हश्')
+    ash_varNa_all = ach_varNa_all + hash_varNa
+
+    a_varNa_all = saMjñAprakaraNam.get_all_svara('अ')
+
+    split_varNa = get_split_varNa(inputword)
+
+    a_found = False
+    for i in range(len(split_varNa)-1):
+
+        if split_varNa[i] in a_varNa_all:
+            a_found = True
+        else:
+            if split_varNa[i] in ['य्','व्']:
+                if a_found == True:
+                    if split_varNa[i+1] in ash_varNa_all:
+                        split_varNa[i]=','
+            a_found = False
+
+    return get_joined_varNa(split_varNa).split(',')
+
+# सन्धिं योजयत
 test_words = [
-    "नरावुदारौ", "तस्यायिदम्", "श्रवणीयम्", "शयनम्", "भावयामि", 
-    "जयति", "पवनः", "नायकः", "विष्णवे", "नाविकः"]
+    ["ते", "आगच्छन्ति"], ["बालौ", "इह"], ["तस्मै", "एव"], ["जे", "अनीयम्"], 
+    ["वटो", "आगच्छ"], ["रमे", "आरोह"], ["गो", "ए"], ["ते", "ऊचुः"], 
+    ["डै", "अकः"], ["उभौ", "अपि"]]
 for word in test_words:
     print(word, end=' ')
-    print(get_echoyavAyAvaH_split(word), end=' ')
+    echoyavAyAvaH_word = get_echoyavAyAvaH_joined(word[0]+word[1])
+    print(echoyavAyAvaH_word, end=' ')
+    print(get_lopaHshAkalyasya_joined(echoyavAyAvaH_word), end=' ')
     print()
-
-
