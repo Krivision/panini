@@ -54,6 +54,15 @@ def get_split_varNa(varNa_str):
                         sole_vyañjana_found = False
                         split_varNa.append('अ')
                 cv = v
+
+        elif unicodedata.category(v)[0] == 'Z':
+            if (cv):
+                split_varNa.append(cv)
+                if sole_vyañjana_found:
+                    sole_vyañjana_found = False
+                    split_varNa.append('अ')
+            cv = v
+
         else:
             pass        
 
@@ -320,9 +329,10 @@ def get_echoyavAyAvaH_split(inputword):
 #     print(get_echoyavAyAvaH_split(echoyavAyAvaH_word), end=' ')
 #     print()
 
+# सन्धिं विभजत
 # test_words = [
 #     "नरावुदारौ", "तस्यायिदम्", "श्रवणीयम्", "शयनम्", "भावयामि", 
-#     "जयति", "पवनः", "नायकः", "विष्णवे", "नाविकः"]
+#     "जयति", "पवनः", "नायकः", "विष्णवे", "नाविकः", "धेनवे", "मतये", "भवनम्"]
 # for word in test_words:
 #     print(word, end=' ')
 #     print(get_echoyavAyAvaH_split(word), end=' ')
@@ -338,32 +348,69 @@ def get_lopaHshAkalyasya_joined(inputword):
     hash_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('हश्')
     ash_varNa_all = ach_varNa_all + hash_varNa
 
-    a_varNa_all = saMjñAprakaraNam.get_all_svara('अ')
+    split_varNa = get_split_varNa(inputword)
+
+    a_found = False
+    for i in range(len(split_varNa)-1):
+
+        if split_varNa[i] in ['अ', 'आ']:
+            a_found = True
+        else:
+            if split_varNa[i] in ['य्','व्']:
+                if a_found == True:
+                    if split_varNa[i+1] in ash_varNa_all:
+                        split_varNa[i]=' '
+            a_found = False
+
+    return get_joined_varNa(split_varNa)
+
+# सन्धिं योजयत
+# test_words = [
+#     ["ते", "आगच्छन्ति"], ["बालौ", "इह"], ["तस्मै", "एव"], ["जे", "अनीयम्"], 
+#     ["वटो", "आगच्छ"], ["रमे", "आरोह"], ["गो", "ए"], ["ते", "ऊचुः"], 
+#     ["डै", "अकः"], ["उभौ", "अपि"]]
+# for word in test_words:
+#     print(word, end=' ')
+#     echoyavAyAvaH_word = get_echoyavAyAvaH_joined(word[0]+word[1])
+#     print(echoyavAyAvaH_word, end=', ')
+#     print(get_lopaHshAkalyasya_joined(echoyavAyAvaH_word), end=' ')
+#     print()
+
+def get_lopaHshAkalyasya_split(inputword, mode = 0):
+
+    ach_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('अच्')
+    ach_varNa_all = [x for y in ach_varNa for x in saMjñAprakaraNam.get_all_svara(y)]
+    hash_varNa = saMjñAprakaraNam.get_pratyAhAra_varNa('हश्')
+    ash_varNa_all = ach_varNa_all + hash_varNa
 
     split_varNa = get_split_varNa(inputword)
 
     a_found = False
     for i in range(len(split_varNa)-1):
 
-        if split_varNa[i] in a_varNa_all:
+        if split_varNa[i] in ['अ', 'आ']:
             a_found = True
         else:
-            if split_varNa[i] in ['य्','व्']:
+            if split_varNa[i] == ' ':
                 if a_found == True:
                     if split_varNa[i+1] in ash_varNa_all:
-                        split_varNa[i]=','
+                        if mode: # TODO how to select mode
+                            split_varNa[i] = 'व्'
+                        else:
+                            split_varNa[i] = 'य्'
             a_found = False
 
-    return get_joined_varNa(split_varNa).split(',')
+    return get_joined_varNa(split_varNa)
 
-# सन्धिं योजयत
-test_words = [
-    ["ते", "आगच्छन्ति"], ["बालौ", "इह"], ["तस्मै", "एव"], ["जे", "अनीयम्"], 
-    ["वटो", "आगच्छ"], ["रमे", "आरोह"], ["गो", "ए"], ["ते", "ऊचुः"], 
-    ["डै", "अकः"], ["उभौ", "अपि"]]
-for word in test_words:
-    print(word, end=' ')
-    echoyavAyAvaH_word = get_echoyavAyAvaH_joined(word[0]+word[1])
-    print(echoyavAyAvaH_word, end=' ')
-    print(get_lopaHshAkalyasya_joined(echoyavAyAvaH_word), end=' ')
-    print()
+# सन्धिं विभजत
+# test_words = [
+#     "गृह आसीत्", "एत इच्छन्ति", "कट उपवेशनम्", "वन इति", 
+#     "द्वा अत्र", "विष्ण इह", "रामलक्ष्मणा अग्रतः"]
+# for i in range(len(test_words)):
+#     print(test_words[i], end=' ')
+#     lopaHshAkalyasya_word = get_lopaHshAkalyasya_split(test_words[i], (i > 3))
+#     # print(lopaHshAkalyasya_word, end=' ')
+#     print(get_echoyavAyAvaH_split(lopaHshAkalyasya_word), end=' ')
+#     print()
+
+################################################################################
