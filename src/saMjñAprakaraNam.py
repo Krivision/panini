@@ -34,13 +34,9 @@ def get_it_varNa():
 ################################################################################
 # ४ आदिरन्त्येन सहेता [१.१.७१ ]
 
+# Generate grapheme clusters for string s
 import unicodedata
 def get_split_cluster(s):
-    """Generate the grapheme clusters for the string s. (Not the full
-    Unicode text segmentation algorithm, but probably good enough for
-    Devanagari.)
-
-    """
     virama = u'\N{DEVANAGARI SIGN VIRAMA}'
     cluster = u''
     last = None
@@ -55,6 +51,8 @@ def get_split_cluster(s):
         last = c
     if cluster:
         yield cluster
+
+# print(list(get_split_cluster("ऋग्वेदसंहितायां प्रथमं मण्डलम्")))
 
 def get_pratyAhAra_varNa(pratyAhAra, occurrence_index = 0):
     split_cluster = list(get_split_cluster(pratyAhAra))
