@@ -1,3 +1,3 @@
 # sanskrit-nlp
 
-Python code to implement aShTAdhyAyI sUtras.
+Python code and docs for aShTAdhyAyI sUtras.
