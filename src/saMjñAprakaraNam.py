@@ -42,6 +42,7 @@ def get_split_cluster(s):
     last = None
     for c in s:
         cat = unicodedata.category(c)[0]
+        # print(">>> ", c, cat)
         if cat == 'M' or cat == 'L' and last == virama:
             cluster += c
         else:
@@ -53,6 +54,7 @@ def get_split_cluster(s):
         yield cluster
 
 # print(list(get_split_cluster("ऋग्वेदसंहितायां प्रथमं मण्डलम्")))
+print(list(get_split_cluster("अमेय")))
 
 def get_pratyAhAra_varNa(pratyAhAra, occurrence_index = 0):
     split_cluster = list(get_split_cluster(pratyAhAra))

@@ -168,7 +168,7 @@ def get_yaNsandhi_split(inputword):
             split_varNa[i] = ik_varNa[yaN_varNa.index(split_varNa[i])]
             outputwords.append(get_joined_varNa(split_varNa[outputindex:i+1]))
             outputindex = i+1
-            # break # Remove break to find more sandhi
+            break # Remove break to find more sandhi
 
     outputwords.append(get_joined_varNa(split_varNa[outputindex:]))
 
@@ -331,7 +331,7 @@ def get_echoyavAyAvaH_split(inputword):
 
 # सन्धिं विभजत
 # test_words = [
-#     "नरावुदारौ", "तस्यायिदम्", "श्रवणीयम्", "शयनम्", "भावयामि", 
+#     "नरावुदारौ", "तस्यायिदम्", "श्रवणीयम्", "शयनम्", 
 #     "जयति", "पवनः", "नायकः", "विष्णवे", "नाविकः", "धेनवे", "मतये", "भवनम्"]
 # for word in test_words:
 #     print(word, end=' ')
