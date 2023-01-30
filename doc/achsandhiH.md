@@ -1723,13 +1723,13 @@ Here in sutra, two cases of विशेषण-विशेष्यभाव ar
 
 २) तदादिविधिः -ऋति (विशेषण) धातौ (विशेष्य)
 
-Commonly in विशेषण-विशेष्यभाव, तदन्तविधिः occurs e.g.
+Commonly in विशेषण-विशेष्यभाव, तदन्तविधिः occurs i.e.विशेषण occurs at the end of    विशेष्य e.g.
 
 आत् उपसर्गात् - अकारान्तात उपसर्गात् (refers to उपसर्ग ending with अकार)
 
 एः धातोः - इकारन्तस्य धातोः  (refers to धातु ending with इकार)
 
-But in case of विशेषण-विशेष्यभाव in सप्तमिविभक्ति and when विशेषण is अल् वर्ण, तदादिविधिः occurs e.g.
+But in case of विशेषण-विशेष्य in सप्तमिविभक्ति and when विशेषण is अल् वर्ण (single वर्ण), तदादिविधिः occurs i.e. विशेषण occurs at the start of विशेष्य e.g.
 
 ऋति धातौ - ऋकारादौ धातौ (refers to धातु starting with ऋकार)
 
